@@ -1,0 +1,13 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+
+# Audio recordings
+*.wav
+
+# macOS
+.DS_Store
+
+# VS Code
+.vscode/
