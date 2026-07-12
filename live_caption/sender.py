@@ -1,17 +1,42 @@
+import requests
+import time
+
+
+BACKEND_URL = "http://localhost:5001/api/captions"
+
+
 class CaptionSender:
     """
-    Sends captions to the frontend and backend.
-
-    For now this is a mock implementation.
-    Later it can be replaced with WebSockets or FastAPI.
+    Sends captions to the backend server.
     """
 
-    def send_to_frontend(self, caption):
-        print(f"📺 Frontend received: {caption}")
+    def send(self, lecture_id, timestamp, text):
 
-    def send_to_backend(self, caption):
-        print(f"💾 Backend received: {caption}")
+        payload = {
+            "lectureId": lecture_id,
+            "timestamp": timestamp,
+            "text": text
+        }
 
-    def send(self, caption):
-        self.send_to_frontend(caption)
-        self.send_to_backend(caption)
+        try:
+
+            response = requests.post(BACKEND_URL, json=payload)
+
+            if response.status_code == 200 or response.status_code == 201:
+                print("✅ Caption sent to backend.")
+
+            else:
+                print(f"⚠️ Backend returned {response.status_code}. Retrying...")
+
+                time.sleep(2)
+
+                response = requests.post(BACKEND_URL, json=payload)
+
+                if response.status_code == 200 or response.status_code == 201:
+                    print("✅ Caption sent successfully on retry.")
+
+                else:
+                    print(f"❌ Failed again ({response.status_code}).")
+
+        except requests.exceptions.RequestException as e:
+            print(f"❌ Connection error: {e}")

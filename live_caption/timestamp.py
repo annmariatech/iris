@@ -1,11 +1,11 @@
-from datetime import datetime
+from datetime import datetime, timezone
 
 
 class TimestampManager:
     """
-    Generates timestamps for captions.
+    Generates ISO 8601 timestamps for captions.
     """
 
     @staticmethod
     def get_timestamp():
-        return datetime.now().strftime("%H:%M:%S")
+        return datetime.now(timezone.utc).isoformat()
