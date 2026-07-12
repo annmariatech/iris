@@ -17,16 +17,36 @@ export const saveAttentionEvent = async (req, res) => {
 
         const attentionEvent =
             await AttentionEvent.create({
-
                 lectureId,
-
                 startTime,
-
                 endTime,
-
                 duration
-
             });
+
+        // Find captions during the distraction period
+        const captions = await Caption.find({
+            lectureId,
+            timestamp: {
+                $gte: new Date(startTime),
+                $lte: new Date(endTime)
+            }
+        });
+
+        // Combine captions into one transcript
+        const transcript = captions
+            .map(c => c.text)
+            .join(" ");
+
+        // Generate AI summary only if transcript exists
+        if (transcript.trim().length > 0) {
+
+            const summary = await generateSummary(transcript);
+
+            attentionEvent.missedTranscript = transcript;
+            attentionEvent.summary = summary;
+
+            await attentionEvent.save();
+        }
 
         res.status(201).json({
             success: true,
@@ -36,32 +56,10 @@ export const saveAttentionEvent = async (req, res) => {
     } catch (error) {
 
         res.status(500).json({
-
             success: false,
-
             message: error.message
-
         });
 
     }
 
 };
-
-const captions = await Caption.find({
-    lectureId,
-    timestamp: {
-        $gte: new Date(startTime),
-        $lte: new Date(endTime)
-    }
-});
-
-const transcript = captions
-    .map(c => c.text)
-    .join(" ");
-
-const summary = await generateSummary(transcript);
-
-attentionEvent.missedTranscript = transcript;
-attentionEvent.summary = summary;
-
-await attentionEvent.save();
