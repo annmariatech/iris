@@ -1,0 +1,187 @@
+/* --- Global Styles --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #cccdce; /* Soft light background */
+    color: #4c596b; /* Soft dark text */
+}
+
+/* --- Home Page Styles --- */
+.home-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.home-container {
+    background-color: hsla(150, 9%, 87%, 0.933);
+    padding: 3rem;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0.05, 0.05); /* Very soft shadow */
+    text-align: center;
+    max-width: 650px;
+}
+
+h1 {
+    font-size: 2.5rem;
+    color: #394351;
+    margin-bottom: 1rem;
+}
+
+p {
+    line-height: 2;
+    margin-bottom: 3rem;
+    color: #64748B;
+}
+
+/* --- Buttons --- */
+.btn {
+    white-space: nowrap;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 2rem;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none; 
+    color: #fff7f7;
+    transition: opacity 0.2s;
+}
+.btn:hover {
+    opacity: 0.9;
+    transform: scale(1.05); /* Makes the button 5% bigger on hover */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Adds a soft glow shadow */
+}
+
+.btn-start {
+    background-color: #82968b; /* Soft Sage */
+}
+
+.btn-stop {
+    background-color: #986769; /* Muted Rose */
+}
+
+.button-group {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+ /* --- Cute Animations --- */
+
+/* 1. Tell the image to use the float animation */
+.cute-graphic {
+    width: 120px; /* Keeps the picture a nice, cute size */
+    margin-bottom: 1rem;
+    animation: float 3s ease-in-out infinite; /* 3 seconds, smooth, repeats forever */
+}
+
+/* 2. Define how the float actually moves */
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); } /* Moves up by 10 pixels */
+    100% { transform: translateY(0px); }
+}
+/* --- Dashboard Layout --- */
+.dashboard-body {
+    padding: 20px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* The Top Bar */
+.dash-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #FFFFFF;
+    padding: 15px 30px;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.attention-box {
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: bold;
+    background-color: #A5D6A7; /* Green for focused */
+    color: #1B5E20;
+}
+
+/* The Main Grid Setup */
+.dash-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr; /* Left side is twice as wide as right side */
+    gap: 20px;
+    height: 100%;
+}
+
+/* Reusable Card Style for all Dashboard sections */
+.webcam-placeholder, .captions-box, .missed-section, .notes-section {
+    background-color: #FFFFFF;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+/* Left Column Specifics */
+.left-column {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.webcam-placeholder {
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #E2E8F0; /* Darker gray placeholder */
+    color: #475569;
+    font-size: 1.2rem;
+}
+
+.captions-box {
+    flex-grow: 1; /* Makes it stretch to fill remaining space */
+    overflow-y: auto; /* Adds a scrollbar if captions get too long */
+}
+
+/* Right Column Specifics */
+.right-column {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.missed-card {
+    background-color: #FFF3CD; /* Soft yellow for attention */
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid #FFC107;
+    margin-top: 10px;
+}
+
+.note-item {
+    background-color: #F8FAFC;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.timestamp {
+    font-weight: bold;
+    color: #94A3B8;
+    margin-right: 10px;
+}
+
+.download-btn {
+    width: 100%; /* Makes button stretch full width of the side panel */
+}
