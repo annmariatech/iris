@@ -10,10 +10,14 @@
 
     <header class="dash-header">
         <h2>ECHO Live</h2>
+
+
+           <div class="attention-box focused">
+    🟢 Focused
+</div>
+
+       
         
-        <div class="attention-box focused">
-            🟢 Focused
-        </div>
 
         <a href="index.html" class="btn btn-stop">End Lecture</a>
     </header>
@@ -47,13 +51,21 @@
             </div>
 
             <div class="notes-section">
-                <h3>Session Notes</h3>
-                <div class="note-item">
+                <div class="notes-header">
+                    <h3>Session Notes</h3>
+                    <button class="btn btn-start btn-small">+ Add Note</button>
+                </div>
+                
+                <div class="note-item" contenteditable="true">
+                    <span class="delete-note" contenteditable="false">🗑️</span>
                     <strong>Q: What is Binary Search?</strong>
                     <p>It works by dividing the search area in half.</p>
                 </div>
+                
                 <button class="btn btn-start download-btn">Download Notes</button>
             </div>
+                
+                
 
         </div>
     </main>

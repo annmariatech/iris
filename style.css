@@ -114,7 +114,39 @@ p {
     background-color: #A5D6A7; /* Green for focused */
     color: #1B5E20;
 }
+/* Attention Indicator States */
+.attention-box {
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: bold;
+    transition: all 0.3s ease; /* Makes the color change smooth */
+}
 
+/* Green - Default State */
+.focused {
+    background-color: #A5D6A7; 
+    color: #1B5E20;
+}
+
+/* Yellow - Looking Away */
+.away {
+    background-color: #FFF59D;
+    color: #F57F17;
+}
+
+/* Red - Attention Lost */
+.lost {
+    background-color: #EF9A9A;
+    color: #B71C1C;
+    animation: pulse 1.5s infinite; /* Adds a warning throb */
+}
+
+/* Pulse animation for the red state */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); box-shadow: 0 0 10px rgba(239, 154, 154, 0.5); }
+    100% { transform: scale(1); }
+}
 /* The Main Grid Setup */
 .dash-grid {
     display: grid;
@@ -184,4 +216,35 @@ p {
 
 .download-btn {
     width: 100%; /* Makes button stretch full width of the side panel */
+}
+/* --- Notes UI Additions --- */
+.notes-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.btn-small {
+    padding: 6px 12px;
+    font-size: 0.85rem; /* Makes the Add button slightly smaller */
+}
+
+/* Positioning the Trash Can */
+.note-item {
+    position: relative; /* Allows us to pin the trash can inside the note */
+}
+
+.delete-note {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    cursor: pointer;
+    opacity: 0.4; /* Faded out normally */
+    transition: all 0.2s;
+}
+
+.delete-note:hover {
+    opacity: 1; /* Lights up when hovered */
+    transform: scale(1.1);
 }
