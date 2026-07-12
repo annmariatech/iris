@@ -1,13 +1,4 @@
 """
-main.py
-Live eye-tracking demo: opens the webcam, detects the face + iris
-landmarks each frame, estimates gaze direction and blinks, rolls that
-into a rolling attention score, and draws everything on screen.
-
-Gaze direction is calibrated against YOUR neutral "looking at the
-screen" position (auto-calibrates ~1s after your face is first seen,
-assuming you're looking at the screen at that point). Recalibrate
-anytime with 'c' if you move, tilt your head differently, etc.
 
 Controls:
   q / ESC  -> quit

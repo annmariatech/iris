@@ -1,8 +1,4 @@
-"""
-camera.py
-Thin wrapper around cv2.VideoCapture so the rest of the app doesn't
-need to know about OpenCV's capture API directly.
-"""
+
 
 import cv2
 

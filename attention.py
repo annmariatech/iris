@@ -1,10 +1,3 @@
-"""
-attention.py
-Rolls gaze results up over a time window into a simple "attention score":
-how much of the recent window the person spent looking roughly center
-(i.e. presumably at the screen/camera) vs. looking away or with no face
-detected at all.
-"""
 
 from collections import deque
 import time

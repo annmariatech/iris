@@ -1,14 +1,4 @@
-"""
-face_mesh.py
-Wraps MediaPipe's FaceLandmarker task (the current Tasks API - the old
-`mp.solutions.face_mesh` API was deprecated in 2023 and has since been
-removed from the mediapipe package). FaceLandmarker outputs the same
-478 landmarks (468 face mesh + 10 iris) as the legacy Face Mesh solution,
-so the landmark indices below are unchanged.
 
-On first run this downloads the ~4MB face_landmarker.task model file
-next to this script and reuses it on subsequent runs.
-"""
 
 import os
 import time

@@ -1,14 +1,3 @@
-"""
-gaze.py
-Turns raw face-mesh + iris landmarks into a gaze direction estimate
-and blink detection, with light temporal smoothing.
-
-Where the iris naturally sits when looking straight at the camera
-varies a lot per person/webcam (angle, height, face shape), so instead
-of fixed absolute thresholds this calibrates against the user's own
-neutral position: call calibrate_center() once while they're looking
-at the screen, and direction is classified relative to that baseline.
-"""
 
 from dataclasses import dataclass
 

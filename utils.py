@@ -1,7 +1,4 @@
-"""
-utils.py
-Small shared helpers: geometry (EAR / ratios), smoothing, and drawing.
-"""
+
 
 import cv2
 import numpy as np
