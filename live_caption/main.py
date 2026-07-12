@@ -24,6 +24,11 @@ class LiveCaptionSystem:
         print("Lecture started.")
         self.running = True
 
+    def run(self):
+        """Continuously process audio until stopped."""
+        while self.running:
+            self.process_once()
+
     def stop(self):
         """Stops the lecture session."""
         print("Lecture stopped.")
@@ -54,8 +59,9 @@ if __name__ == "__main__":
 
     system = LiveCaptionSystem()
 
-    system.start()
+    try:
+        system.start()
+        system.run()
 
-    system.process_once()
-
-    system.stop()
+    except KeyboardInterrupt:
+        system.stop()
