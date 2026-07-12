@@ -1,4 +1,6 @@
 import AttentionEvent from "../models/AttentionEvent.js";
+import Caption from "../models/Caption.js";
+import { generateSummary } from "../services/aiService.js";
 
 export const saveAttentionEvent = async (req, res) => {
 
@@ -44,3 +46,22 @@ export const saveAttentionEvent = async (req, res) => {
     }
 
 };
+
+const captions = await Caption.find({
+    lectureId,
+    timestamp: {
+        $gte: new Date(startTime),
+        $lte: new Date(endTime)
+    }
+});
+
+const transcript = captions
+    .map(c => c.text)
+    .join(" ");
+
+const summary = await generateSummary(transcript);
+
+attentionEvent.missedTranscript = transcript;
+attentionEvent.summary = summary;
+
+await attentionEvent.save();

@@ -1,4 +1,13 @@
 import Lecture from "../models/Lecture.js";
+import Caption from "../models/Caption.js";
+import Note from "../models/Note.js";
+
+import {
+    generateNotes,
+    classifyNotes
+} from "../services/aiService.js";
+
+import { cleanTranscript } from "../utils/transcriptCleaner.js";
 
 // Start a new lecture
 export const startLecture = async (req, res) => {
@@ -43,6 +52,32 @@ export const endLecture = async (req, res) => {
         lecture.status = "COMPLETED";
 
         await lecture.save();
+
+        const captions = await Caption.find({
+    lectureId
+}).sort({ timestamp: 1 });
+
+const transcript = cleanTranscript(captions);
+
+const notes = await generateNotes(transcript);
+
+const taggedNotes = JSON.parse(
+    await classifyNotes(notes)
+);
+
+for (const note of taggedNotes) {
+
+    await Note.create({
+
+        lectureId,
+
+        originalText: note.text,
+
+        tag: note.tag
+
+    });
+
+}
 
         res.json({
             success: true,
