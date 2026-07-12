@@ -1,0 +1,47 @@
+"""
+camera.py
+Thin wrapper around cv2.VideoCapture so the rest of the app doesn't
+need to know about OpenCV's capture API directly.
+"""
+
+import cv2
+
+
+class Camera:
+    def __init__(self, source=0, width=720, height=720, flip=True):
+        """
+        source: int (webcam index) or str (video file path / stream URL)
+        width, height: requested capture resolution
+        flip: mirror the frame horizontally (natural for a front-facing webcam)
+        """
+        self.source = source
+        self.flip = flip
+        self.cap = cv2.VideoCapture(source)
+
+        if not self.cap.isOpened():
+            raise RuntimeError(f"Could not open camera/source: {source}")
+
+        self.cap.set(cv2.CAP_PROP_FRAME_WIDTH, width)
+        self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, height)
+
+    def read(self):
+        """Returns (success, frame). Frame is BGR, optionally mirrored."""
+        success, frame = self.cap.read()
+        if not success:
+            return False, None
+        if self.flip:
+            frame = cv2.flip(frame, 1)
+        return True, frame
+
+    def get_fps(self):
+        fps = self.cap.get(cv2.CAP_PROP_FPS)
+        return fps if fps > 0 else 30.0
+
+    def release(self):
+        self.cap.release()
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.release()
