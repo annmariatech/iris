@@ -40,7 +40,7 @@ class AttentionScorer:
         score = self.score()
         if score is None:
             return "calibrating..."
-        if score >= 0.75:
+        if score >= 0.90:
             return "focused"
         if score >= 0.4:
             return "distracted"
