@@ -1,4 +1,4 @@
-from datetime import datetime
+from timestamp import TimestampManager
 
 
 class TranscriptManager:
@@ -12,7 +12,7 @@ class TranscriptManager:
     def add_caption(self, text):
         """Add a caption with the current timestamp."""
 
-        timestamp = datetime.now().strftime("%H:%M:%S")
+        timestamp = TimestampManager.get_timestamp()
 
         self.captions.append({
             "timestamp": timestamp,

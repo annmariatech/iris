@@ -1,15 +1,26 @@
 import whisper
 
-print("🔄 Loading Whisper model...")
 
-model = whisper.load_model("base")
+class WhisperTranscriber:
+    """
+    Converts audio files into text using OpenAI Whisper.
+    """
 
-print("✅ Model loaded!")
+    def __init__(self, model_name="base"):
+        print("Loading Whisper model...")
+        self.model = whisper.load_model(model_name)
+        print("Whisper model loaded successfully.")
 
-print("\n🎧 Transcribing audio...\n")
+    def transcribe(self, audio_file):
+        """
+        Transcribe an audio file and return the text.
+        """
 
-result = model.transcribe("test_recording.wav")
+        result = self.model.transcribe(
+    audio_file,
+    language="en",
+    fp16=False
+)
 
-print("📝 Caption:\n")
-
-print(result["text"])
+        return result["text"].strip()
+    
