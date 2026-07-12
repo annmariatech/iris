@@ -11,11 +11,6 @@ class AttentionScorer:
         self._history = deque()
 
     def update(self, gaze_result):
-        """
-        Feed the latest GazeResult in. "Attentive" = direction is 'center'.
-        Blinking is treated as neutral (kept as the last known state) since
-        a blink shouldn't count as looking away.
-        """
         now = time.time()
 
         if gaze_result.direction == "no_face":
@@ -35,7 +30,7 @@ class AttentionScorer:
             self._history.popleft()
 
     def score(self):
-        """Returns attention score in [0, 1], or None if not enough data yet."""
+        
         if len(self._history) < self.min_samples:
             return None
         attentive_count = sum(1 for _, a in self._history if a)

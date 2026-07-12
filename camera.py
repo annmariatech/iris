@@ -5,11 +5,7 @@ import cv2
 
 class Camera:
     def __init__(self, source=0, width=720, height=720, flip=True):
-        """
-        source: int (webcam index) or str (video file path / stream URL)
-        width, height: requested capture resolution
-        flip: mirror the frame horizontally (natural for a front-facing webcam)
-        """
+       
         self.source = source
         self.flip = flip
         self.cap = cv2.VideoCapture(source)
@@ -21,7 +17,7 @@ class Camera:
         self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, height)
 
     def read(self):
-        """Returns (success, frame). Frame is BGR, optionally mirrored."""
+        
         success, frame = self.cap.read()
         if not success:
             return False, None

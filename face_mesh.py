@@ -60,7 +60,7 @@ class FaceMeshDetector:
         self._last_timestamp_ms = -1
 
     def _next_timestamp_ms(self):
-        """VIDEO mode requires strictly increasing timestamps in ms."""
+        
         ts = int((time.monotonic() - self._start_time) * 1000)
         if ts <= self._last_timestamp_ms:
             ts = self._last_timestamp_ms + 1
@@ -68,10 +68,7 @@ class FaceMeshDetector:
         return ts
 
     def process(self, frame_bgr):
-        """
-        Runs face landmark detection on a BGR frame.
-        Returns a dict with pixel-space landmark arrays, or None if no face found.
-        """
+       
         h, w = frame_bgr.shape[:2]
         frame_rgb = cv2.cvtColor(frame_bgr, cv2.COLOR_BGR2RGB)
         mp_image = mp.Image(image_format=mp.ImageFormat.SRGB, data=frame_rgb)

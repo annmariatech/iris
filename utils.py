@@ -23,16 +23,23 @@ def eye_aspect_ratio(top, bottom, outer, inner):
 
 def iris_position_ratio(iris_center, outer_corner, inner_corner):
     """
-    Returns a value in roughly [0, 1] describing where the iris sits
-    between the outer (0.0) and inner (1.0) eye corner, horizontally.
-    ~0.5 = looking straight ahead, <0.4 = looking one way, >0.6 = other way.
-    (Which side is "left"/"right" depends on which eye/corners you pass in.)
+    Returns the normalized horizontal position of the iris between the
+    two eye corners.
+
+    0.0 -> outer corner
+    0.5 -> center
+    1.0 -> inner corner
     """
-    eye_width = euclidean(outer_corner, inner_corner)
-    if eye_width == 0:
+
+    eye_width = inner_corner[0] - outer_corner[0]
+
+    if abs(eye_width) < 1e-6:
         return 0.5
-    dist_from_outer = euclidean(iris_center, outer_corner)
-    return float(np.clip(dist_from_outer / eye_width, 0.0, 1.0))
+
+    ratio = (iris_center[0] - outer_corner[0]) / eye_width
+
+    return float(np.clip(ratio, 0.0, 1.0))
+
 
 
 class EMASmoother:

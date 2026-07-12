@@ -57,7 +57,10 @@ def main():
     calibrating_msg_timer = 0  # frames left to show a "Calibrated!" flash
 
     with Camera(source=0) as camera, FaceMeshDetector() as detector:
-        gaze_tracker = GazeTracker()
+        gaze_tracker = GazeTracker(
+            
+            smoothing_alpha=0.8
+        )
         attention_scorer = AttentionScorer(window_seconds=5.0)
 
         prev_time = cv2.getTickCount()
@@ -85,13 +88,7 @@ def main():
             attention_label = attention_scorer.label()
 
             if landmarks is not None:
-                if show_full_mesh:
-                    draw_landmarks(frame, landmarks["all"], color=(80, 80, 80), radius=1)
-
-                draw_landmarks(frame, landmarks["left_eye"], color=(0, 255, 0))
-                draw_landmarks(frame, landmarks["right_eye"], color=(0, 255, 0))
-                draw_iris(frame, landmarks["left_iris"])
-                draw_iris(frame, landmarks["right_iris"])
+                pass
 
             now = cv2.getTickCount()
             fps = tick_freq / (now - prev_time) if now != prev_time else 0.0

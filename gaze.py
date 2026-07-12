@@ -5,12 +5,9 @@ from utils import eye_aspect_ratio, iris_position_ratio, EMASmoother
 
 BLINK_EAR_THRESHOLD = 0.19
 
-# How far (in ratio units, ~0-1 scale) the iris must move from the
-# calibrated center before it counts as looking away. Smaller = more
-# sensitive (catches subtle corner-of-the-eye glances). Larger = less
-# sensitive (ignores small jitter, only flags clear head/eye turns).
-DEFAULT_H_DEADZONE = 0.025
-DEFAULT_V_DEADZONE = 0.03
+
+DEFAULT_H_DEADZONE = 0.001
+DEFAULT_V_DEADZONE = 0.001
 
 MIN_DEADZONE = 0.01
 MAX_DEADZONE = 0.15
@@ -45,10 +42,7 @@ class GazeTracker:
         self._last_v_ratio = 0.5
 
     def update(self, landmarks):
-        """
-        landmarks: dict returned by FaceMeshDetector.process(), or None.
-        Returns a GazeResult.
-        """
+        
         if landmarks is None:
             return GazeResult("no_face", self._last_h_ratio, self._last_v_ratio, 0.0, 0.0, False)
 
@@ -88,11 +82,7 @@ class GazeTracker:
         return GazeResult(direction, h_ratio, v_ratio, left_ear, right_ear, False)
 
     def calibrate_center(self):
-        """
-        Call this while the person is looking straight at the camera/screen
-        to (re)set the neutral gaze baseline. Safe to call repeatedly
-        (e.g. bound to a keypress) if the camera or seating position changes.
-        """
+        
         self.h_center = self._last_h_ratio
         self.v_center = self._last_v_ratio
         self.is_calibrated = True
@@ -108,15 +98,25 @@ class GazeTracker:
         self.v_deadzone = min(MAX_DEADZONE, self.v_deadzone + DEADZONE_STEP)
 
     def _classify(self, h_ratio, v_ratio):
-        dh = h_ratio - self.h_center
-        dv = v_ratio - self.v_center
 
-        if dh < -self.h_deadzone:
-            return "left"
-        if dh > self.h_deadzone:
-            return "right"
-        if dv < -self.v_deadzone:
-            return "up"
-        if dv > self.v_deadzone:
-            return "down"
-        return "center"
+        dh = abs(h_ratio - self.h_center)
+        dv = abs(v_ratio - self.v_center)
+
+        # VERY strict center condition
+        if dh < self.h_deadzone and dv < self.v_deadzone:
+            return "center"
+
+        # Otherwise distracted
+        if abs(h_ratio - self.h_center) >= self.h_deadzone:
+            if h_ratio < self.h_center:
+                return "left"
+            else:
+                return "right"
+
+        if abs(v_ratio - self.v_center) >= self.v_deadzone:
+            if v_ratio < self.v_center:
+                return "up"
+            else:
+                return "down"
+
+        return "distracted"
